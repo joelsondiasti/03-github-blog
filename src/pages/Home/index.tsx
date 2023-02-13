@@ -15,8 +15,20 @@ export interface GithubProfileInfo {
   company: string | null
 }
 
+export interface IssueProps {
+  body: string
+  created_at: string
+  title: string
+  number: number
+}
+export interface IssuesListProps {
+  length: number
+  issues: IssueProps[]
+}
+
 export function Home() {
   const [user, setUser] = useState<GithubProfileInfo>({} as GithubProfileInfo)
+  const [issues, setIssues] = useState<IssueProps[]>([])
 
   useEffect(() => {
     const userInfo = async () => {
@@ -25,14 +37,28 @@ export function Home() {
       setUser(response.data)
     }
 
+    const issuesList = async () => {
+      const response = await api.get(
+        'repos/joelsondiasti/03-github-blog/issues',
+        {
+          params: {
+            direction: 'asc',
+          },
+        },
+      )
+      console.log(response.data)
+      setIssues(response.data)
+    }
+
     userInfo()
+    issuesList()
   }, [])
 
   return (
     <Container>
       <Profile user={user} />
       <SearchInput />
-      <PostList />
+      <PostList issues={[...issues]} />
     </Container>
   )
 }

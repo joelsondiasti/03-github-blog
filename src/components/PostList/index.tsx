@@ -1,50 +1,32 @@
-import { PostsContainer, PostItem } from './styles'
+import { formatDistanceToNowStrict, parseISO } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+import { IssueProps } from '../../pages/Home'
+import { PostItem, PostsContainer } from './styles'
+interface PostListProps {
+  issues: IssueProps[]
+}
 
-export function PostList() {
+export function PostList({ issues }: PostListProps) {
+  console.log(issues)
+  const publishedDateRelativeToNow = (date: string) => {
+    return formatDistanceToNowStrict(parseISO(date), {
+      locale: ptBR,
+      addSuffix: true,
+    })
+  }
   return (
     <PostsContainer>
-      <PostItem>
-        <header>
-          <h1>Javascript data types and data structures</h1>
-          <span>Há 1 dia</span>
-        </header>
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in JavaScript and what
-          properties they have. These can be used to build other data
-          structures. Wherever possible, comparisons with other languages are
-          drawn.
-        </p>
-      </PostItem>
-      <PostItem>
-        <header>
-          <h1>Javascript data types and data structures</h1>
-          <span>Há 1 dia</span>
-        </header>
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in JavaScript and what
-          properties they have. These can be used to build other data
-          structures. Wherever possible, comparisons with other languages are
-          drawn.
-        </p>
-      </PostItem>
-      <PostItem>
-        <header>
-          <h1>Javascript data types and data structures</h1>
-          <span>Há 1 dia</span>
-        </header>
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in JavaScript and what
-          properties they have. These can be used to build other data
-          structures. Wherever possible, comparisons with other languages are
-          drawn.
-        </p>
-      </PostItem>
+      {issues.map((issue) => (
+        <PostItem key={issue.number}>
+          <header>
+            <h1>{issue.title}</h1>
+            <span>{publishedDateRelativeToNow(issue.created_at)}</span>
+          </header>
+          <p>
+            {issue.body.split('.', 4)[0]}.{issue.body.split('.', 4)[1]}...{' '}
+          </p>
+        </PostItem>
+      ))}
     </PostsContainer>
   )
 }

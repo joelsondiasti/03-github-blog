@@ -30,7 +30,19 @@ export const PostItem = styled.article`
     }
   }
 
+  p {
+    margin-top: 1rem;
+  }
+
   &:hover {
+    transition: all 0.5s;
     border: 2px solid ${(props) => props.theme['base-label']};
   }
+  /* &:hover {
+    // alternative hover effect like a neon
+    transition: all 0.5s;
+    border: 2px solid ${(props) => props.theme['base-title']};
+    box-shadow: 0 0 0.01rem #fff, 0 0 0.01rem #fff, 0 0 0.2rem #3294f8,
+      0 0 0.2rem #3294f8, 0 0 0.2rem #3294f8, inset 0 0 0.2rem #3294f8;
+  } */
 `
