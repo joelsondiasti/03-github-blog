@@ -29,6 +29,7 @@ export const ProfileContainer = styled.section`
   @media (min-width: 1024px) {
     flex-direction: row;
     gap: 2rem;
+    margin-top: -5.5rem;
 
     > div {
       align-items: flex-start;
@@ -37,7 +38,6 @@ export const ProfileContainer = styled.section`
         text-align: left;
       }
     }
-    margin-top: -5.5rem;
   }
 `
 
