@@ -4,34 +4,34 @@ import {
   FaGithub,
   FaUserFriends,
 } from 'react-icons/fa'
+import { GithubProfileInfo } from '../../pages/Home'
 import { GithubLink, ProfileContainer, ProfileInfo } from './styles'
 
-export function Profile() {
+type ProfileProps = { user: GithubProfileInfo }
+export function Profile({ user }: ProfileProps) {
   return (
     <ProfileContainer>
-      <img src="https://avatars.githubusercontent.com/u/38875073?v=4" alt="" />
+      <img src={user.avatar_url} alt={user.login} />
       <div>
-        <h1>Joelson Dias</h1>
-        <span>
-          Full Stack Developer, Information Technology Teacher and student in
-          constant learning. I have skills in: web programming, Node.js, React
-          and React Native
-        </span>
+        <h1>{user.name}</h1>
+        <span>{user.bio}</span>
         <ProfileInfo>
           <div>
             <FaGithub />
-            <span>joelsondiasti</span>
+            <span>{user.login}</span>
           </div>
-          <div>
-            <FaBuilding />
-            <span>ByB Brasil</span>
-          </div>
+          {user.company && (
+            <div>
+              <FaBuilding />
+              <span>{user.company}</span>
+            </div>
+          )}
           <div>
             <FaUserFriends />
-            <span>18 seguidores</span>
+            <span>{user.followers} seguidores</span>
           </div>
         </ProfileInfo>
-        <GithubLink href="http://github.com/joelsondiasti">
+        <GithubLink href={user.html_url}>
           <span>Github</span>
           <FaExternalLinkAlt size={12} />
         </GithubLink>
