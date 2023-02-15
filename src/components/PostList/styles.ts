@@ -12,11 +12,13 @@ export const PostsContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
 `
-export const PostItem = styled.article`
+export const PostItem = styled.a`
   padding: 2rem;
   background: ${(props) => props.theme['base-post']};
+  color: ${(props) => props.theme['base-text']};
   border-radius: 10px;
   border: 2px solid transparent;
+  text-decoration: none;
 
   header {
     display: flex;
@@ -28,6 +30,10 @@ export const PostItem = styled.article`
       font-size: 1.25rem;
       line-height: 1.6;
     }
+
+    span {
+      color: ${(props) => props.theme['base-span']};
+    }
   }
 
   p {
@@ -35,6 +41,7 @@ export const PostItem = styled.article`
   }
 
   &:hover {
+    cursor: pointer;
     transition: all 0.5s;
     border: 2px solid ${(props) => props.theme['base-label']};
   }
