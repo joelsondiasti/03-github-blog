@@ -8,6 +8,7 @@ import {
   FaExternalLinkAlt,
   FaGithub,
 } from 'react-icons/fa'
+import ReactMarkdown from 'react-markdown'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../../lib/axios'
 import { Container, Content, Details, Navigation, PostInfo } from './styles'
@@ -15,9 +16,7 @@ interface IssueResponseProps {
   body: string
   title: string
   comments: number
-  user: {
-    login: string
-  }
+  user: string
   created_at: string
   html_url: string
 }
@@ -26,27 +25,35 @@ export function Post() {
   const [post, setPost] = useState<IssueResponseProps>({} as IssueResponseProps)
   const navigate = useNavigate()
   const { postId } = useParams()
-
-  useEffect(() => {
-    if (!postId) {
-      navigate('/')
-    }
-    const loadPostData = async () => {
-      const response = await api.get<IssueResponseProps>(
-        `repos/joelsondiasti/03-github-blog/issues/${postId}`,
-      )
-      setPost(response.data)
-    }
-
-    loadPostData()
-  }, [postId, navigate])
-
-  function publishedDateRelativeToNow(date: string){
+  console.log(postId)
+  function publishedDateRelativeToNow(date: string) {
     return formatDistanceToNow(parseISO(date), {
       locale: ptBR,
       addSuffix: true,
     })
   }
+
+  useEffect(() => {
+    if (!postId) {
+      navigate('/')
+    }
+    const loadPostData = async (id?: string) => {
+      try {
+        const response = await api.get(
+          `repos/joelsondiasti/03-github-blog/issues/${id}`,
+        )
+        setPost({
+          ...response.data,
+          user: response.data.user.login,
+          created_at: publishedDateRelativeToNow(response.data.created_at),
+        })
+      } catch (e) {
+        alert(e)
+      }
+    }
+
+    loadPostData(postId)
+  }, [postId, navigate])
 
   function handleBackToPreviusClick() {
     navigate('/')
@@ -72,31 +79,26 @@ export function Post() {
             <Details>
               <div>
                 <FaGithub />
-                <span>{''}</span>
+                <span>{post.user}</span>
               </div>
               <div>
                 <FaCalendarDay />
-                <span>{publishedDateRelativeToNow(post.created_at)}</span>
+
+                <span>{post.created_at}</span>
               </div>
               <div>
                 <FaComment />
-                <span>5 comentários</span>
+                <span>
+                  {post.comments === 1
+                    ? `${post.comments} comentário`
+                    : `${post.comments} comentários`}
+                </span>
               </div>
             </Details>
           </PostInfo>
 
           <Content>
-            <p>
-              Programming languages all have built-in data structures, but these
-              often differ from one language to another. This article attempts
-              to list the built-in data structures available in JavaScript and
-              what properties they have. These can be used to build other data
-              structures. Wherever possible, comparisons with other languages
-              are drawn. Dynamic typing JavaScript is a loosely typed and
-              dynamic language. Variables in JavaScript are not directly
-              associated with any particular value type, and any variable can be
-              assigned (and re-assigned) values of all types:
-            </p>
+            <ReactMarkdown>{post.body}</ReactMarkdown>
           </Content>
         </>
       )}

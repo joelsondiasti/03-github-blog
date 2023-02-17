@@ -8,7 +8,6 @@ interface PostListProps {
 }
 
 export function PostList({ issues }: PostListProps) {
-  console.log(issues)
   const navigate = useNavigate()
   const publishedDateRelativeToNow = (date: string) => {
     return formatDistanceToNowStrict(parseISO(date), {

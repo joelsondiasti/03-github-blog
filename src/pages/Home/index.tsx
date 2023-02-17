@@ -46,7 +46,6 @@ export function Home() {
           },
         },
       )
-      console.log(response.data)
       setIssues(response.data)
     }
 
