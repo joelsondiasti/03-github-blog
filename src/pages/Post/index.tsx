@@ -8,7 +8,6 @@ import {
   FaExternalLinkAlt,
   FaGithub,
 } from 'react-icons/fa'
-import ReactMarkdown from 'react-markdown'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../../lib/axios'
 import { Container, Content, Details, Navigation, PostInfo } from './styles'
@@ -97,9 +96,7 @@ export function Post() {
             </Details>
           </PostInfo>
 
-          <Content>
-            <ReactMarkdown>{post.body}</ReactMarkdown>
-          </Content>
+          <Content>{post.body}</Content>
         </>
       )}
     </Container>

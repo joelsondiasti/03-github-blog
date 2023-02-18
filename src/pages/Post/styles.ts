@@ -1,3 +1,4 @@
+import ReactMarkdown from 'react-markdown'
 import styled from 'styled-components'
 
 export const Container = styled.main`
@@ -21,6 +22,7 @@ export const Navigation = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    cursor: pointer;
 
     text-decoration: none;
     color: ${(props) => props.theme.blue};
@@ -72,6 +74,23 @@ export const Details = styled.div`
   }
 `
 
-export const Content = styled.article`
+export const Content = styled(ReactMarkdown)`
   padding: 2.5rem 2rem;
+  text-align: justify;
+  text-ident: none;
+
+  p {
+    margin-top: 1rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin-top: 2rem;
+  }
+
+  ul,
+  ol {
+    margin-left: 3rem;
+  }
 `
